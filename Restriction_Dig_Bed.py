@@ -19,7 +19,7 @@ USAGE = r"""
 parser = argparse.ArgumentParser(description = USAGE)
 
 # parser.add_argument('-e', "--restriction", action = "store", type= str, default = "CTGCA^G", help = "the restriction enzyme you choose")
-parser.add_argument("--restriction", action = "store", type= str, dest = "RE", default = "CTGCA^G", help = "the restriction enzyme you choose")
+parser.add_argument('-e', "--restriction", action = "store", type= str, dest = "RE", default = "CTGCA^G", help = "the restriction enzyme you choose")
 parser.add_argument('-o', "--output", action = "store", type = argparse.FileType("w"))
 
 args = parser.parse_args()
