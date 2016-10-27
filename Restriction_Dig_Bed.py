@@ -7,7 +7,9 @@ import os
 
 USAGE = r"""
              %prog -e CTGCAG -o out_file \
-             example 1: C:\Users\user\Desktop>C:\Users\user\AppData\Local\Programs\Python\Python35\python.exe 1.py -e TTCOT -o rest.txt \
+             
+             provide a Restriction endonuclease with cut site
+             example 1: C:\Users\user\Desktop>C:\Users\user\AppData\Local\Programs\Python\Python35\python.exe 1.py -e TTCGA^A -o rest.txt \
                  TTCOT \
              example 2: C:\Users\user\Desktop>C:\Users\user\AppData\Local\Programs\Python\Python35\python.exe 1.py -o rest.txt \
                  CTGCAG \
