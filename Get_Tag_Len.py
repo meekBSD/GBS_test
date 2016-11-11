@@ -58,7 +58,9 @@ if __name__ == "__main__":
     fas = glob("Unique_Sample_*.fa") 
     
     for i in fas:
-        get_length_stat(i)
+        sn = i[:-3]+"_stat.txt"
+        if not os.path.exists(sn):
+            get_length_stat(i)
     
     StdPro = os.popen("awk '/The Total number of Tags/' Gen_*_stat.txt")
     res = open(args.Summary_f, "w")
