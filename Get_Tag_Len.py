@@ -60,7 +60,7 @@ if __name__ == "__main__":
     for i in fas:
         get_length_stat(i)
     
-    StdPro = os.popen("awk /The Total number of Tags/ Gen_*_stat.txt")
+    StdPro = os.popen("awk '/The Total number of Tags/' Gen_*_stat.txt")
     res = open(args.Summary_f, "w")
     
     res.write(StdPro.read())
