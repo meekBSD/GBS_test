@@ -4,6 +4,10 @@
 import vcf
 import gzip
 
+## the script will use a vcf file as input and output a data matrix containning Depth of each sample
+#  filter vcf with total depth more than 200
+#  each row is a variant and each column is one sample and its depth of every variant
+
 # Abbreviation of Samtools_results is STR
 STR = "SO_var.flt.vcf"
 
