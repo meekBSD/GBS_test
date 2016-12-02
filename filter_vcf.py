@@ -15,8 +15,8 @@ def filter_SNP(vcf_file, TotDP, filter_st, prefix):
     vcf_W = vcf.Writer(open(prefix + "_out_filtered_var.vcf", 'w'), vcf_reader)
     filtered_SNP = open(prefix + "_output_SNP.txt", 'w')
     filtered_INDEL = open(prefix + "_output_IND.txt" ,'w')
-    filtered_SNP.write("Chr\tPOS\tRec_ID\tREF\tALT\tQUAL\tPMV\tMAF\tHET\n")
-    filtered_INDEL.write("Chr\tPOS\tRec_ID\tREF\tALT\tQUAL\tPMV\tMAF\tHET\n")
+    filtered_SNP.write("Chr\tPOS\tRec_ID\tREF\tALT\tQUAL\tPMV\tMAF\tHET\tHet_Obs\n")
+    filtered_INDEL.write("Chr\tPOS\tRec_ID\tREF\tALT\tQUAL\tPMV\tMAF\tHET\tHet_Obs\n")
 
     Var_Num = 0
     SNP_Num = 0
@@ -47,7 +47,12 @@ def filter_SNP(vcf_file, TotDP, filter_st, prefix):
                 if round(PMV_r) > 100 - k:
                     PMV_count[k] += 1
 
+            GT_a = [i['GT'] for i in record.samples]
+            # print GT_a
+            Het_Freq = GT_a.count("0/1")/C
+
             for sq in record.samples:
+           
                 if sq['DP'] >= 10:
                     Qual_Of_Samples[sq.sample].append(record.QUAL)
 
@@ -57,24 +62,24 @@ def filter_SNP(vcf_file, TotDP, filter_st, prefix):
             # check this position is a SNP and its AF > 0.5, and then write this line into test_output_SNP.txt
                 if record.is_snp and record.INFO['AF1'] >= 0.5:
                     SNP_Num += 1
-                    filtered_SNP.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\n".format\
-                     (record.CHROM, record.POS, record.ID, record.REF, record.ALT, record.QUAL, PMV,  1-record.INFO['AF1'], record.heterozygosity))
+                    filtered_SNP.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\n".format\
+                     (record.CHROM, record.POS, record.ID, record.REF, record.ALT, record.QUAL, PMV,  1-record.INFO['AF1'], record.heterozygosity, Het_Freq))
             # check this position is a SNP and its AF <= 0.5, and then write this line into test_output_SNP.txt
                 elif record.is_snp and record.INFO['AF1'] < 0.5:
                     SNP_Num += 1
-                    filtered_SNP.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\n".format\
-                     (record.CHROM, record.POS, record.ID, record.REF, record.ALT, record.QUAL, PMV,  record.INFO['AF1'], record.heterozygosity))
+                    filtered_SNP.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\n".format\
+                     (record.CHROM, record.POS, record.ID, record.REF, record.ALT, record.QUAL, PMV,  record.INFO['AF1'], record.heterozygosity, Het_Freq))
 
             # check INDEL and AF1 and write INDEL into test_output_IND.txt
                 elif record.is_indel and record.INFO['AF1'] >= 0.5:
                     IND_Num += 1
-                    filtered_INDEL.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\n".format\
-                     (record.CHROM, record.POS, record.ID, record.REF, record.ALT, record.QUAL, PMV,  1-record.INFO['AF1'], record.heterozygosity))
+                    filtered_INDEL.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\n".format\
+                     (record.CHROM, record.POS, record.ID, record.REF, record.ALT, record.QUAL, PMV,  1-record.INFO['AF1'], record.heterozygosity, Het_Freq))
             # check INDEL and AF1 and write INDEL into test_output_IND.txt
                 elif record.is_indel and record.INFO['AF1'] < 0.5:
                     IND_Num += 1
-                    filtered_INDEL.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\n".format\
-                     (record.CHROM, record.POS, record.ID, record.REF, record.ALT, record.QUAL, PMV, record.INFO['AF1'], record.heterozygosity))
+                    filtered_INDEL.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\n".format\
+                     (record.CHROM, record.POS, record.ID, record.REF, record.ALT, record.QUAL, PMV, record.INFO['AF1'], record.heterozygosity, Het_Freq))
 
     filtered_SNP.close()
     filtered_INDEL.close()
@@ -113,4 +118,6 @@ if __name__ == "__main__":
             QS_out.write("{0}\t{1}\n".format(i, j))
 
     QS_out.close()
+
+
 
