@@ -8,7 +8,7 @@ import numpy as np
 import argparse
 import os
 import sys
-#import vcf
+import vcf
 import copy
 import math
 import subprocess
