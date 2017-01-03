@@ -150,7 +150,7 @@ def Variant_Calling(genome, out_prefix):
     CS_SH = open("current_vcf_call.sh", 'w')
     CS_SH.write("#!/bin/bash\n\n")
     #CS_SH.write('java -Xmx15g -jar /home/yangjy/software/picard-tools-1.86/MergeSamFiles.jar OUTPUT=Merge.bam $(printf "INPUT=%s " RG_*.bam)\n')
-    CS_SH.write("for i in `ls *RG.bam`\ndo\n     ID=$(echo $i | cut -d '_' -f1)\n     echo -e \"@RG\tID:${ID}_RG\tPL:Illumina\tPU:${ID}sorted\tLB:${ID}_sorted\tSM:${ID}_sorted\" >> tt.txt\ndone\n")
+    CS_SH.write("for i in `ls *RG.bam`\ndo\n     ID=$(echo $i | cut -d '_' -f1)\n     echo -e \"@RG\tID:${ID}_RG\tPL:Illumina\tPU:FG_${ID}\tLB:FG_${ID}\tSM:FG_${ID}\" >> tt.txt\ndone\n")
     CS_SH.write("sort tt.txt | uniq > rh.txt\n")
     CS_SH.write('samtools merge -r -h rh.txt Merged_All.bam *_RG.bam\n')
     CS_SH.write("samtools mpileup -uDgf %s %s/Merged_All.bam | /home/yangjy/software/samtools-0.1.18/bcftools/bcftools view -bvcg - > %s/%s.bcf\n\n"%(genome, result_dir, result_dir,out_prefix))
