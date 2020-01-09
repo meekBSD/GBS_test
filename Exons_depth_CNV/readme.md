@@ -7,7 +7,8 @@
 
 ## Use R
 
-```grep 'ENST000_N' /data/annotation/database/gencode.v30lift37.annotation.gtf > testGene.bed
+```
+grep 'ENST000_N' /data/annotation/database/gencode.v30lift37.annotation.gtf > testGene.bed
 
 awk '{if($3=="exon")print}' testGene.bed > Gene_exons.tsv
 
